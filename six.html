@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extra Credit: State Selector</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Array of states
+            const states = ["California", "Texas", "Florida", "New York", "Illinois", "Pennsylvania", "Ohio", "Georgia", "North Carolina", "Michigan"];
+            
+            // Populate the <select> element with <option> elements
+            function populateSelect() {
+                $("#stateSelect").empty();
+                states.forEach(state => {
+                    $("#stateSelect").append(`<option value="${state}">${state}</option>`);
+                });
+            }
+            populateSelect();
+
+            // Add event listener for "Add State" button
+            $("#addStateButton").click(function() {
+                let selectedState = $("#stateSelect").val();
+                if (selectedState) {
+                    // Add the state to the div as a numbered list item
+                    let stateDiv = $("#selectedStates");
+                    let count = stateDiv.children().length + 1;
+                    stateDiv.append(`<div>${count}. ${selectedState}</div>`);
+
+                    // Remove the selected state from the array and update the select list
+                    const index = states.indexOf(selectedState);
+                    if (index > -1) {
+                        states.splice(index, 1);
+                    }
+                    populateSelect();
+                }
+            });
+
+            // Add event listener for "Clear States" button
+            $("#clearStatesButton").click(function() {
+                $("#selectedStates").empty();
+                // Restore the original list of states
+                states.splice(0, states.length, "California", "Texas", "Florida", "New York", "Illinois", "Pennsylvania", "Ohio", "Georgia", "North Carolina", "Michigan");
+                populateSelect();
+            });
+        });
+    </script>
+</head>
+<body>
+    <h2>Extra Credit: State Selector</h2>
+    <select id="stateSelect" size="10"></select>
+    <button id="addStateButton" type="button">Add State</button>
+    <br><br>
+    <div id="selectedStates" style="border: 1px solid black; padding: 10px; width: 200px; min-height: 50px;"></div>
+    <button id="clearStatesButton" type="button">Clear States</button>
+</body>
+</html>
